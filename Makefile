@@ -10,7 +10,7 @@ GOLIST:=$(GOCMD) list
 GOVET:=$(GOCMD) vet
 
 BINARY_NAME:=swag
-PACKAGES:=$(shell $(GOLIST) github.com/swaggo/swag github.com/swaggo/swag/cmd/swag github.com/swaggo/swag/gen)
+PACKAGES:=$(shell $(GOLIST) github.com/geeks-accelerator/swag github.com/geeks-accelerator/swag/cmd/swag github.com/geeks-accelerator/swag/gen)
 GOFILES:=$(shell find . -name "*.go" -type f)
 
 export GO111MODULE := on
@@ -47,7 +47,7 @@ clean:
 
 .PHONY: install
 install:
-	$(GOGET) -v github.com/swaggo/swag github.com/swaggo/swag/cmd/swag github.com/swaggo/swag/gen
+	$(GOGET) -v github.com/geeks-accelerator/swag github.com/geeks-accelerator/swag/cmd/swag github.com/geeks-accelerator/swag/gen
 	$(GOGET) github.com/alecthomas/template
 	$(GOGET) github.com/stretchr/testify/assert
 
