@@ -1,4 +1,4 @@
-module github.com/swaggo/swag
+module github.com/geeks-accelerator/swag
 
 require (
 	github.com/KyleBanks/depth v1.2.1
@@ -11,6 +11,7 @@ require (
 	github.com/stretchr/testify v1.4.0
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
 	github.com/swaggo/gin-swagger v1.2.0
+	github.com/swaggo/swag v1.5.1
 	github.com/urfave/cli/v2 v2.1.1
 	golang.org/x/tools v0.0.0-20190614205625-5aca471b1d59
 )

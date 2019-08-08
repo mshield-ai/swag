@@ -13,7 +13,7 @@ GOPATH:=$(shell $(GOCMD) env GOPATH)
 u := $(if $(update),-u)
 
 BINARY_NAME:=swag
-PACKAGES:=$(shell $(GOLIST) github.com/swaggo/swag github.com/swaggo/swag/cmd/swag github.com/swaggo/swag/gen)
+PACKAGES:=$(shell $(GOLIST) github.com/geeks-accelerator/swag github.com/geeks-accelerator/swag/cmd/swag github.com/geeks-accelerator/swag/gen)
 GOFILES:=$(shell find . -name "*.go" -type f)
 
 export GO111MODULE := on
@@ -60,6 +60,9 @@ deps:
 	$(GOGET) github.com/KyleBanks/depth
 	$(GOGET) github.com/go-openapi/jsonreference
 	$(GOGET) github.com/go-openapi/spec
+.PHONY: install
+install:
+	$(GOGET) -v github.com/mshield-ai/swag github.com/mshield-ai/swag/cmd/swag github.com/mshield-ai/swag/gen
 	$(GOGET) github.com/stretchr/testify/assert
 	$(GOGET) github.com/alecthomas/template
 	$(GOGET) golang.org/x/tools/go/loader
