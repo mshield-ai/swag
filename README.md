@@ -76,21 +76,15 @@ OPTIONS:
    --parseDependency                   Parse go files in outside dependency folder, disabled by default
 ```
 
-## Supported Web Frameworks
 
-- [gin](http://github.com/swaggo/gin-swagger)
-- [echo](http://github.com/swaggo/echo-swagger)
-- [buffalo](https://github.com/swaggo/buffalo-swagger)
-- [net/http](https://github.com/swaggo/http-swagger)
+## How to use it with SaaS Starter Kit
 
-## How to use it with Gin
-
-Find the example source code [here](https://github.com/geeks-accelerator/swag/tree/master/example/celler).
+Find the example source code [here](https://gitlab.com/geeks-accelerator/oss/saas-starter-kit/tree/master/internal/mid/saas-swagger/example).
 
 1. After using `swag init` to generate Swagger 2.0 docs, import the following packages:
 ```go
-import "github.com/swaggo/gin-swagger" // gin-swagger middleware
-import "github.com/swaggo/files" // swagger embed files
+import "./internal/mid/saas-swagger" // Saas Starter Kit middleware
+import "github.com/geeks-accelerator/files" // swagger embed files
 ```
 
 2. Add [General API](#general-api-info) annotations in `main.go` code:
@@ -140,27 +134,6 @@ import "github.com/swaggo/files" // swagger embed files
 
 // @x-extension-openapi {"example": "value on a json format"}
 
-func main() {
-	r := gin.Default()
-
-	c := controller.NewController()
-
-	v1 := r.Group("/api/v1")
-	{
-		accounts := v1.Group("/accounts")
-		{
-			accounts.GET(":id", c.ShowAccount)
-			accounts.GET("", c.ListAccounts)
-			accounts.POST("", c.AddAccount)
-			accounts.DELETE(":id", c.DeleteAccount)
-			accounts.PATCH(":id", c.UpdateAccount)
-			accounts.POST(":id/images", c.UploadAccountImage)
-		}
-    //...
-	}
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	r.Run(":8080")
-}
 //...
 ```
 
