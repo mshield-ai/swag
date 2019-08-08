@@ -6,6 +6,7 @@ import (
 	"go/ast"
 	goparser "go/parser"
 	"go/token"
+	"go/types"
 	"net/http"
 	"os"
 	"regexp"
@@ -438,10 +439,26 @@ func (operation *Operation) ParseSecurityComment(commentLine string) error {
 	return nil
 }
 
+
+var loadedSpecs map[string]map[string]*ast.TypeSpec
+
 // findTypeDef attempts to find the *ast.TypeSpec for a specific type given the
 // type's name and the package's import path
 // TODO: improve finding external pkg
 func findTypeDef(importPath, typeName string) (*ast.TypeSpec, error) {
+
+	if loadedSpecs == nil {
+		loadedSpecs = make(map[string]map[string]*ast.TypeSpec)
+	}
+
+	if _, ok := loadedSpecs[importPath]; !ok {
+		loadedSpecs[importPath] = make(map[string]*ast.TypeSpec)
+	}
+
+	if typeSpec, ok := loadedSpecs[importPath][typeName]; ok {
+		return typeSpec, nil
+	}
+
 	cwd, err := os.Getwd()
 	if err != nil {
 		return nil, err
@@ -450,6 +467,9 @@ func findTypeDef(importPath, typeName string) (*ast.TypeSpec, error) {
 	conf := loader.Config{
 		ParserMode: goparser.SpuriousErrors,
 		Cwd:        cwd,
+		TypeChecker: types.Config{
+			IgnoreFuncBodies: true,
+		},
 	}
 
 	conf.Import(importPath)
@@ -461,21 +481,19 @@ func findTypeDef(importPath, typeName string) (*ast.TypeSpec, error) {
 
 	// If the pkg is vendored, the actual pkg path is going to resemble
 	// something like "{importPath}/vendor/{importPath}"
+	packagePath := importPath
 	for k := range lprog.AllPackages {
 		realPkgPath := k.Path()
 
 		if strings.Contains(realPkgPath, "vendor/"+importPath) {
-			importPath = realPkgPath
+			packagePath = realPkgPath
 		}
 	}
 
-	pkgInfo := lprog.Package(importPath)
-
+	pkgInfo := lprog.Package(packagePath)
 	if pkgInfo == nil {
 		return nil, errors.New("package was nil")
 	}
-
-	// TODO: possibly cache pkgInfo since it's an expensive operation
 
 	for i := range pkgInfo.Files {
 		for _, astDeclaration := range pkgInfo.Files[i].Decls {
@@ -483,13 +501,18 @@ func findTypeDef(importPath, typeName string) (*ast.TypeSpec, error) {
 				for _, astSpec := range generalDeclaration.Specs {
 					if typeSpec, ok := astSpec.(*ast.TypeSpec); ok {
 						if typeSpec.Name.String() == typeName {
-							return typeSpec, nil
+							loadedSpecs[importPath][typeName] = typeSpec
 						}
 					}
 				}
 			}
 		}
 	}
+
+	if typeSpec, ok := loadedSpecs[importPath][typeName]; ok {
+		return typeSpec, nil
+	}
+
 	return nil, errors.New("type spec not found")
 }
 
