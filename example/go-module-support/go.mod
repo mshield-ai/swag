@@ -1,4 +1,4 @@
-module github.com/geeks-accelerator/swag/example/go-module-support
+module github.com/mshield-ai/swag/example/go-module-support
 
 go 1.12
 
