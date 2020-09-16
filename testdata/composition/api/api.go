@@ -2,7 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/geeks-accelerator/swag/testdata/composition/common"
+	"github.com/mshield-ai/swag/testdata/composition/common"
 )
 
 type Foo struct {

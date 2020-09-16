@@ -1,4 +1,4 @@
-module github.com/geeks-accelerator/swag/example/markdown
+module github.com/mshield-ai/swag/example/markdown
 
 go 1.12
 

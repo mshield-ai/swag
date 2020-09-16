@@ -202,8 +202,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/geeks-accelerator/swag/example/celler/httputil"
-	"github.com/geeks-accelerator/swag/example/celler/model"
+	"github.com/mshield-ai/swag/example/celler/httputil"
+	"github.com/mshield-ai/swag/example/celler/model"
 )
 
 // ShowAccount godoc
