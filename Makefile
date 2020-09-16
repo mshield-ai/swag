@@ -13,7 +13,7 @@ GOPATH:=$(shell $(GOCMD) env GOPATH)
 u := $(if $(update),-u)
 
 BINARY_NAME:=swag
-PACKAGES:=$(shell $(GOLIST) github.com/geeks-accelerator/swag github.com/geeks-accelerator/swag/cmd/swag github.com/geeks-accelerator/swag/gen)
+PACKAGES:=$(shell $(GOLIST) github.com/mshield-ai/swag github.com/mshield-ai/swag/cmd/swag github.com/mshield-ai/swag/gen)
 GOFILES:=$(shell find . -name "*.go" -type f)
 
 export GO111MODULE := on

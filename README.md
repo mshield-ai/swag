@@ -46,7 +46,7 @@ Swag converts Go annotations to Swagger Documentation 2.0. We've created a varie
 
 2. Download swag by using:
 ```sh
-$ go get -u github.com/geeks-accelerator/swag/cmd/swag
+$ go get -u github.com/mshield-ai/swag/cmd/swag
 ```
 To build from source you need [Go](https://golang.org/dl/) (1.9 or newer).
 
